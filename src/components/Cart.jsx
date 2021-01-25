@@ -1,24 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { removeProductFromCart, addProductToCart, subtractProductFromCart } from '../store/modules/cart/action';
+import CartItem from './CartItem';
 
 const Cart = () => {
   const [cartTotal, useCartTotal] = useState(0);
-  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart.items);
-
-  const handleRemove = useCallback((id) => {
-    dispatch(removeProductFromCart(id));
-  }, [dispatch]);
-
-  const handleSubtract = useCallback((id) => {
-    dispatch(subtractProductFromCart(id));
-  }, [dispatch]);
-
-  const handleAdd = useCallback((product) => {
-    dispatch(addProductToCart(product));
-  }, [dispatch]);
 
   useEffect(() => {
     const result = cart.reduce((total, next) => next.product.price * next.quantity + total, 0);
@@ -45,29 +33,7 @@ const Cart = () => {
             </tr>
           )}
           {cart.map((item) => (
-            <tr key={item.product.id}>
-              <td>
-                {item.product.title}
-              </td>
-              <td className="align-right">
-                {' $'}
-                {(item.product.price).toFixed(2)}
-              </td>
-              <td className="align-right">
-                <button type="button" onClick={() => handleSubtract(item.product.id)}>-</button>
-                {' '}
-                {item.quantity}
-                {' '}
-                <button type="button" onClick={() => handleAdd(item.product)}>+</button>
-              </td>
-              <td className="align-right">
-                {' $'}
-                {(item.product.price * item.quantity).toFixed(2)}
-              </td>
-              <td>
-                <button type="button" onClick={() => handleRemove(item.product.id)}>X</button>
-              </td>
-            </tr>
+            <CartItem key={item.product.id} item={item} />
           ))}
           <tr />
           <tr>

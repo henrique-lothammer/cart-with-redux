@@ -2,6 +2,7 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   items: [],
+  failedStockCheck: [],
 };
 
 const cart = (state = INITIAL_STATE, action) => produce(state, (draft) => {
@@ -50,6 +51,31 @@ const cart = (state = INITIAL_STATE, action) => produce(state, (draft) => {
 
       if (productInCartIndex >= 0) {
         draft.items.splice(productInCartIndex, 1);
+      }
+
+      return draft;
+    }
+    case 'ADD_PRODUCT_TO_ERROR_LIST': {
+      const { product } = action.payload;
+
+      const productInCartErrorIndex = draft.failedStockCheck.findIndex(
+        (item) => item === product.id,
+      );
+
+      if (productInCartErrorIndex === -1) {
+        draft.failedStockCheck.push(product.id);
+      }
+
+      return draft;
+    }
+    case 'REMOVE_PRODUCT_FROM_ERROR_LIST': {
+      const { id } = action.payload;
+      const productInCartErrorIndex = draft.failedStockCheck.findIndex(
+        (item) => item === id,
+      );
+
+      if (productInCartErrorIndex >= 0) {
+        draft.failedStockCheck.splice(productInCartErrorIndex, 1);
       }
 
       return draft;
