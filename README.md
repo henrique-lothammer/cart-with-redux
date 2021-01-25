@@ -1,12 +1,17 @@
 [See it live](https://cart-example.netlify.app/)
 
 ## :computer: General info
-A simple e-commerce cart with add, subtract and remove features made with React and Redux;
+A simple e-commerce cart made with React and Redux;
+
+Features:
+- add, subtract and remove features based on quantity
+- check stock availability before do actions
 	
 ## :rocket: Technologies
 Project is created with:
 * [ReactJS](https://reactjs.org/)
 * [Redux](https://redux.js.org/)
+* [Redux-Thunk](https://github.com/reduxjs/redux-thunk)
 	
 ## :triangular_ruler: Setup
 
